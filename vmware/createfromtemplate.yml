@@ -6,13 +6,13 @@
   tasks:
   - name: Create VM from the Template
     vmware_guest:
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
-      password: Hqlocal1
+      hostname: 
+      username: 
+      password: 
       validate_certs: no
-      esxi_hostname: 10.203.137.210
-      datacenter: DS-Labs Ottawa
-      folder: Discovered virtual machine
+      esxi_hostname: 
+      datacenter: 
+      folder: 
       template: AI - ubuntu 16.04
       name: ubuntu-Template
       state: poweredon
