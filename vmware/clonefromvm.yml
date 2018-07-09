@@ -1,0 +1,25 @@
+--- # Create VM on ESXi
+- hosts: local
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - name: Clone a template from New VM
+    vmware_guest:
+      hostname: 10.203.137.201
+      username: dslabs@vsphere.local
+      password: 
+      validate_certs: no
+      datacenter: Ottawa
+      state: present
+      folder: Suj
+      guest_id: centos64Guest
+      name: centos7x64
+      template: Centos-KS-AI
+      is_template: true
+    register: deploy
+
+  - name: show deploy
+    debug:
+      msg: "{{ deploy }}"
+      

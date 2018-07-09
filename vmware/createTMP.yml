@@ -31,14 +31,14 @@
       validate_certs: no
       esxi_hostname: '{{ esxi }}'
       datacenter: '{{ datacenter }}'
-      folder: Suraj
+      folder: Discovered virtual machine
       name: '{{ vmname }}'
       state: poweredon
-      guest_id: centos64Guest
+      guest_id: rhel7_64Guest
       disk:
       - size_gb: 100
         type: thin
-        datastore: R5-LDS03
+        datastore: 2 TB HDD
       networks:
       - name: VM Network
         ip: 10.10.10.2
@@ -51,13 +51,9 @@
         memory_mb: 4096
         num_cpus: 2
       cdrom:
-        type: "iso"
-        iso_path: "[R5-LDS03] ISO/centos7-ks-Final.iso"
+        type: iso
+        iso_path:
       customization:
         dns_servers:
         - 8.8.8.8
         - 8.8.8.8
-    register: newvm
-  - name: IP Address
-    debug:
-      msg: "{{ newvm.instance.ipv4 }} {{ vmname  }}"

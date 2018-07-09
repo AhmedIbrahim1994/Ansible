@@ -1,4 +1,4 @@
---- # Create VM on ESXi
+--- # Clone VM from template on ESXi
 - hosts: local
   gather_facts: false
   connection: local
@@ -23,16 +23,16 @@
       prompt: "VM Name:"   
       private: no
   tasks:
-  - name: Create the VM
+  - name: Clone vm from template VM
     vmware_guest:
-      hostname: '{{ hostname  }}'
-      username: '{{ username  }}'
-      password: '{{ password  }}'
-      validate_certs: no
-      esxi_hostname: '{{ esxi }}'
-      datacenter: '{{ datacenter }}'
+      hostname: 10.203.137.201
+      username: dslabs@vsphere.local
+      password: Hqlocal1
+      datacenter: Ottawa QA Server
       folder: Suraj
-      name: '{{ vmname }}'
+      template: centos7x64
+      validate_certs: no
+      name: CentosTMP
       state: poweredon
       guest_id: centos64Guest
       disk:
@@ -50,14 +50,7 @@
       hardware:
         memory_mb: 4096
         num_cpus: 2
-      cdrom:
-        type: "iso"
-        iso_path: "[R5-LDS03] ISO/centos7-ks-Final.iso"
       customization:
         dns_servers:
         - 8.8.8.8
         - 8.8.8.8
-    register: newvm
-  - name: IP Address
-    debug:
-      msg: "{{ newvm.instance.ipv4 }} {{ vmname  }}"
