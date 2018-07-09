@@ -25,11 +25,11 @@
   tasks:
   - name: Clone vm from template VM
     vmware_guest:
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
-      password: Hqlocal1
-      datacenter: Ottawa QA Server
-      folder: Suraj
+      hostname: 
+      username: 
+      password: 
+      datacenter: 
+      folder: 
       template: centos7x64
       validate_certs: no
       name: CentosTMP
