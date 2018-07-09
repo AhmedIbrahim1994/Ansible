@@ -6,8 +6,8 @@
   tasks:
   - name: Clone a template from New VM
     vmware_guest:
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
+      hostname: 
+      username: 
       password: 
       validate_certs: no
       datacenter: Ottawa
