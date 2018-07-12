@@ -6,10 +6,10 @@
   - name: Create DataCenter
     local_action:
       module: vmware_datacenter
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
+      hostname: .201
+      username: 
       validate_certs: no
-      password: Hqlocal1
+      password: 
       datacenter_name: DevOpsAI
       state: present
 

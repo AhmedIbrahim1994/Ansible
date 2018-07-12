@@ -5,9 +5,9 @@
   tasks:
   - name: Check Memory - CPU Available = Gather Facts
     vmware_host_facts:
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
-      password: Hqlocal1
+      hostname: 
+      username: 
+      password: 
       validate_certs: false
     register: hostfacts1
   - debug: var=hostfacts1

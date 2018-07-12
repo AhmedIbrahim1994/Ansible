@@ -6,9 +6,9 @@
   tasks:
   - name: Check the Template Exist
     vmware_guest_find:
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
-      password: Hqlocal1
+      hostname: 
+      username: 
+      password: 
       validate_certs: no
       name: centos7x64
     register: found

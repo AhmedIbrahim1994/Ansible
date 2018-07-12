@@ -7,9 +7,9 @@
   - name: Gather Facts Of All Vms in virtual center or ESXi
     local_action:
       module: vmware_vm_facts
-      hostname: 10.203.137.201
-      username: dslabs@vsphere.local
-      password: Hqlocal1
+      hostname: 
+      username: 
+      password: 
       validate_certs: False
     register: facts
   - name: Check if th VM  name exists
