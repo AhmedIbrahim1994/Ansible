@@ -23,6 +23,7 @@
       prompt: "VM Name:"   
       private: no
   tasks:
+
   - name: Create the VM
     vmware_guest:
       hostname: '{{ hostname  }}'
@@ -57,7 +58,15 @@
         dns_servers:
         - 8.8.8.8
         - 8.8.8.8
+    delegate_to: localhost
     register: newvm
+  - name: wait_for_boot
+    wait_for:
+      host: "{{ newvm.instance.ipv4 }}"
+      port: 22
+      delay: 60
+      timeout: 500
+      state: started
   - name: IP Address
     debug:
       msg: "{{ newvm.instance.ipv4 }} {{ vmname  }}"
