@@ -1,0 +1,13 @@
+- name: debug
+  hosts: all
+
+  tasks:
+  - debug:
+      msg: "{{ hostvars[inventory_hostname] }}"
+  - name: Download Application
+    hosts: dsa
+    get_url:
+      url: https://files.trendmicro.com/products/deepsecurity/en/11.0/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      dest: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      mode: 0777
+

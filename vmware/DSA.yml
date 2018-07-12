@@ -23,10 +23,12 @@
       name: /root/Downloads/unarchive/Agent-Core-RedHat_EL7-11.0.0-211.x86_64.rpm
       state: latest
     delegate_to: 10.203.202.161
-  - name: start APP Service
+
+  - name: start APP Servicei
     command: systemctl start ds_agent
     register: result
     delegate_to: 10.203.202.161
+
   - debug:
       msg: "{{ result }}"
   - name: Verify APP Service

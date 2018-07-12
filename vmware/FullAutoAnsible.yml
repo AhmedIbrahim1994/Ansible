@@ -26,6 +26,9 @@
     ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
     esxi: ''
     datacenter: ''
+
+
+
     #Task should run in this sequence:
     #1- Gather All facts about all virtual machines in Vcenter to check later
     #if the machine name exists or not by uuid
@@ -46,6 +49,12 @@
     #Gather facts take time depending on how many machines on your vcenter.
     #so if you have many VMs it will take many time may  be 20 - 25 mins
     #
+    #
+    #
+    #
+    #
+    #
+
   tasks:
           # - name: Gather Facts of all VMs in Virtual Center or ESXi.
           #local_action:
@@ -189,6 +198,44 @@
       url: https://files.trendmicro.com/products/deepsecurity/en/11.0/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
       dest: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
       mode: 0777
+      
+  - block:
+   - name: "Check Destination Exists"
+     stat:
+      path: "{{ item }}"
+     register: folder_stats
+     with_items:
+     - ["/root/Downloads/unarchive"]
+
+   - debug: var=folder_stats.results
+
+   - name: "Create Directory"
+     file:
+       path: "{{item.item}}"
+       state: directory
+       mode: 0755
+       group: root
+       owner: root
+     when: item.stat.exists == false
+     with_items:
+     - "{{ folder_stats.results }}"
+
+  - name: Unarchive the Application
+    hosts: dsa
+    unarchive:
+      src: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      dest: ~/Downloads/unarchive
+      remote_src: yes
+
+
+  - name: Install the -RPM-
+    hosts: dsa
+    yum:
+      name: /root/Downloads/unarchive/Agent-Core-RedHat_EL7-11.0.0-211.x86_64.rpm
+      state: latest
+
+
+
 
   - name: start APP Service
     command: systemctl start ds_agent

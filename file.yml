@@ -1,0 +1,27 @@
+--- # Create VM on ESXi
+- hosts: local
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - block:
+      - name: "Check Destination Exists"
+        stat:
+         path: "{{ item }}"
+        register: folder_stats
+        with_items:
+        - ["/root/Downloads/unarchive"]
+
+      - debug: var=folder_stats.results
+      
+      - name: "Create Directory"
+        file:
+          path: "{{item.item}}"
+          state: directory
+          mode: 0755
+          group: root
+          owner: root
+        when: item.stat.exists == false
+        with_items:
+        - "{{ folder_stats.results }}"
+
