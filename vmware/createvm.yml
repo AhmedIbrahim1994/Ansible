@@ -39,7 +39,7 @@
       disk:
       - size_gb: 100
         type: thin
-        datastore: R5-LDS03
+        datastore: R
       networks:
       - name: VM Network
         ip: 10.10.10.2
