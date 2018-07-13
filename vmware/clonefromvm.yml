@@ -10,7 +10,7 @@
       username: 
       password: 
       validate_certs: no
-      datacenter: Ottawa
+      datacenter: 
       state: present
       folder: Suj
       guest_id: centos64Guest
