@@ -101,7 +101,7 @@ content=si.content
     config = load_config(config_path)
 '''
     # connect to vc
-    #si = SmartConnect(host='10.203.137.201', user='dslabs@vsphere.local', pwd='Hqlocal1', port='9443')
+    #si = SmartConnect(host='10.10.10.2', user='@vsphere.local', pwd='', port='9443')
     # disconnect vc
     #atexit.register(Disconnect, si)
 
