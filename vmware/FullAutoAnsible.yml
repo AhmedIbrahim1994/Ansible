@@ -112,13 +112,13 @@
 
   #- name: Clone a template from New VM
   #vmware_guest:
-  #hostname: 10.203.137.201
-  #username: dslabs@vsphere.local
+  #hostname: 
+  #username: 
   #password:
   #validate_certs: no
-  #datacenter: Ottawa
+  #datacenter: 
   #state: present
-  #folder: Suj
+  #folder: 
   #guest_id: centos64Guest
   #name: centos7x64
   #template: Centos-KS-AI
@@ -131,11 +131,11 @@
 
   #- name: Clone vm from template VM
   #vmware_guest:
-  #hostname: 10.203.137.201
-  #username: dslabs@vsphere.local
-  #password: Hqlocal1
-  #datacenter: Ottawa QA Server
-  #folder: Suraj
+  #hostname: 
+  #username: 
+  #password: 
+  #datacenter: 
+  #folder: 
   #template: centos7x64
   #validate_certs: no
   #name: CentosTMP
@@ -178,7 +178,7 @@
       name: "{{ item.name }}"
       group: "{{ item.services }}"
       ansible_ssh_host: "{{ facts['virtual_machines']['%s' | format(item.name)]['ip_address']  }}"
-      #ansible_ssh_host: 10.202.203.161
+      #ansible_ssh_host: 161
       ansible_ssh_port: "{{ new_port }}"
       inventory_dir: "{{ inventory_dir }}"
       ansible_ssh_user: "{{ ansible_ssh_user }}"
