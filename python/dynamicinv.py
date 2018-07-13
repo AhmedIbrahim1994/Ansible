@@ -92,7 +92,7 @@ def main():
 args = parse_args()
 s=ssl.SSLContext(ssl.PROTOCOL_TLSv1)
 s.verify_mode=ssl.CERT_NONE
-si= SmartConnect(host="10.203.137.201", user="dslabs@vsphere.local", pwd="Hqlocal1",sslContext=s)
+si= SmartConnect(host="10.10.10.1", user="@vsphere.local", pwd="password", sslContext=s)
 content=si.content
 
 '''
