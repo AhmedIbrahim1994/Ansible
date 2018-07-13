@@ -12,7 +12,7 @@
       validate_certs: no
       datacenter: 
       state: present
-      folder: Suj
+      folder: 
       guest_id: centos64Guest
       name: centos7x64
       template: Centos-KS-AI
