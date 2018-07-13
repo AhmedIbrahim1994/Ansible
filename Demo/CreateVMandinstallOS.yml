@@ -13,9 +13,9 @@
   #Variables - should be dynamic based on the resources of vcenter hosts
   #and we can use external file as a variable
   vars:
-    vcenter_hostname: '10.203.137.201'
-    vcenter_user: 'dslabs@vsphere.local'
-    vcenter_pass: 'Hqlocal1'
+    vcenter_hostname: ''
+    vcenter_user: ''
+    vcenter_pass: ''
     vmtemplate: ''
     new_port: 22
     inventory_dir: '/etc/ansible/hosts'
@@ -24,8 +24,8 @@
     ansible_become_user: 'root'
     ansible_become_pass: '12345'
     ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
-    esxi: '10.203.202.2'
-    datacenter: 'Ottawa QA Server'
+    esxi: ''
+    datacenter: ''
   tasks:
   - name: Create the VM
     vmware_guest:
