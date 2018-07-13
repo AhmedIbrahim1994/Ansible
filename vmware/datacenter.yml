@@ -1,0 +1,15 @@
+--- # Create Data Center to test Credentials
+- hosts: local
+  gather_facts: no
+  connection: local
+  tasks:
+  - name: Create DataCenter
+    local_action:
+      module: vmware_datacenter
+      hostname: .201
+      username: 
+      validate_certs: no
+      password: 
+      datacenter_name: DevOpsAI
+      state: present
+

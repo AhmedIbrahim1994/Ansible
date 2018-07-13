@@ -1,0 +1,109 @@
+- name: Install App
+  hosts: local
+  connection: local
+  gather_facts: false
+
+  vars:
+    vcenter_hostname: '10.10.10.1'
+    vcenter_user: '@vsphere.local'
+    vcenter_pass: ''
+    vmtemplate: ''
+    new_port: 22
+    inventory_dir: '/etc/ansible/hosts'
+    ansible_ssh_user: 'root'
+    ansible_ssh_pass: '12345'
+    ansible_become_user: 'root'
+    ansible_become_pass: '12345'
+    ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+    esxi: ''
+    datacenter: ''
+
+  tasks:
+  - debug:
+    msg: "{{ hostvars[inventory_hostname] }}"
+ 
+  - name: Add Existing VM to dynamic inventory for further tasks
+    add_host:
+      name: '10.203.202.177'
+      group: "{{ item.services }}"
+      ansible_ssh_host: '10.203.202.177'
+      ansible_ssh_port: "{{ new_port }}"
+      inventory_dir: "{{ inventory_dir }}"
+      ansible_ssh_user: "{{ ansible_ssh_user }}"
+      ansible_ssh_pass: "{{ ansible_ssh_pass }}"
+      ansible_become_user: "{{ ansible_become_user }}"
+      ansible_become_pass: "{{ ansible_become_pass }}"
+      ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+    changed_when: false
+    with_items:
+      - { name: Centos-KS-AI-Demo, services: dsa }
+    register: host
+
+
+  - debug: var=host
+  
+  ##play 2 - Installation
+- name: debug
+  hosts: all
+
+  tasks:
+  - debug:
+      msg: "{{ hostvars[inventory_hostname] }}"
+
+  - name: Download Application
+    hosts: dsa
+    get_url:
+      url: https://files.trendmicro.com/products/deepsecurity/en/11.0/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      dest: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      mode: 0777
+
+  - name: "Check Destination Exists"
+    hosts: dsa
+    stat:
+     path: "{{ item }}"
+    register: folder_stats
+    with_items:
+    - ["/root/Downloads/unarchive"]
+
+  - debug: var=folder_stats.results
+
+  - name: "Create Directory"
+    hosts: dsa
+    file:
+      path: "{{item.item}}"
+      state: directory
+      mode: 0755
+      group: root
+      owner: root
+    when: item.stat.exists == false
+    with_items:
+    - "{{ folder_stats.results }}"
+
+  - name: Unarchive the Application
+    hosts: dsa
+    unarchive:
+      src: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
+      dest: ~/Downloads/unarchive
+      remote_src: yes
+
+  - name: Install the -RPM-
+    hosts: dsa
+    yum:
+      name: /root/Downloads/unarchive/Agent-Core-RedHat_EL7-11.0.0-211.x86_64.rpm
+      state: latest
+
+  - name: start APP Service
+    hosts: dsa
+    command: systemctl start ds_agent
+    register: result
+
+  - debug:
+      msg: "{{ result }}"
+
+  - name: Verify APP Service
+    hosts: dsa
+    command: systemctl status ds_agent
+    register: result
+
+  - debug:
+      msg: "{{ result.stdout_lines[2] }}"

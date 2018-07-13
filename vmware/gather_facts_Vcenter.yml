@@ -1,0 +1,18 @@
+--- # Gather Facts About ESXi hosts
+- hosts: local
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: Check Memory - CPU Available = Gather Facts
+    vmware_host_facts:
+      hostname: 
+      username: 
+      password: 
+      validate_certs: false
+    register: hostfacts1
+  - debug: var=hostfacts1
+  - name: Memory
+    debug:
+       msg: " Free Memeory:{{ ansible_memfree_mb }}"
+       msg: " Total Memory:{{ ansible_memtotal_mb }}"
+

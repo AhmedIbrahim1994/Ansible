@@ -1,0 +1,59 @@
+--- # Create VM on ESXi
+- hosts: local
+  gather_facts: false
+  connection: local
+
+  vars_prompt:
+    - name: "hostname"
+      prompt: "Vcenter IP:"
+      private: no
+    - name: "username"
+      prompt: "User Name:"
+      private: no
+    - name: "password"
+      prompt: "Password:"
+      private: yes
+    - name: "esxi"
+      prompt: "ESXi:"
+      private: no
+    - name: "datacenter"
+      prompt: "DataCenter:"   
+      private: no
+    - name: "vmname"
+      prompt: "VM Name:"   
+      private: no
+  tasks:
+  - name: Create the VM
+    vmware_guest:
+      hostname: '{{ hostname  }}'
+      username: '{{ username  }}'
+      password: '{{ password  }}'
+      validate_certs: no
+      esxi_hostname: '{{ esxi }}'
+      datacenter: '{{ datacenter }}'
+      folder: 
+      name: '{{ vmname }}'
+      state: poweredon
+      guest_id: rhel7_64Guest
+      disk:
+      - size_gb: 100
+        type: thin
+        datastore: 2 TB HDD
+      networks:
+      - name: VM Network
+        ip: 10.10.10.2
+        netmask: 255.255.255.0
+        gateway: 10.10.10.1
+        dns_servers:
+        - 8.8.8.8
+        - 8.8.8.8
+      hardware:
+        memory_mb: 4096
+        num_cpus: 2
+      cdrom:
+        type: iso
+        iso_path:
+      customization:
+        dns_servers:
+        - 8.8.8.8
+        - 8.8.8.8
