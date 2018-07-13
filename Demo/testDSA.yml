@@ -1,11 +1,7 @@
 ---
 - name: Install Application
-  hosts: all
-  gather_facts: False
-  connection: local
-
-- name: debug
-  hosts: all
+  hosts: local
+  gather_facts: false
 
   #Virtual machine name "use input"
   vars_prompt:
@@ -48,7 +44,7 @@
         name: 10.203.202.161
         group: "{{ item.services }}"
         #ansible_ssh_host: "{{ facts['virtual_machines']['%s' | format(item.name)]['ip_address']  }}"
-        ansible_ssh_host: '10.203.202.161'
+        ansible_ssh_host: 10.203.202.161
         ansible_ssh_port: "{{ new_port }}"
         inventory_dir: "{{ inventory_dir }}"
         ansible_ssh_user: "{{ ansible_ssh_user }}"
@@ -58,7 +54,7 @@
         ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
       changed_when: false
       with_items:
-        - { name: Centos-KS-AI, services: dsa }
+        - { name: Centos-KS-AI-Demo, services: dsa }
       register: host
 
     - debug: var=host
@@ -72,7 +68,7 @@
         url: https://files.trendmicro.com/products/deepsecurity/en/11.0/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
         dest: ~/Downloads/Agent-RedHat_EL7-11.0.0-211.x86_64.zip
         mode: 0777
-   
+      #delegate_to: dsa
     
     - name: "Check Destination Exists"
       hosts: dsa
@@ -121,10 +117,3 @@
       hosts: dsa
       command: systemctl status ds_agent
       register: result
-
-    - debug:
-        msg: "{{ result.stdout_lines[2] }}"
-
-
-
-
